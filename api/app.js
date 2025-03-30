@@ -6,7 +6,7 @@ dotenv.config();
 
 const app = express();
 const corsOptions = {
-    origin: "http://localhost:3000", // Change this to your frontend URL
+    origin: ["*"], // Change this to your frontend URL
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true, // Allow cookies & authentication headers
   };
