@@ -1,40 +1,20 @@
-require("dotenv").config();
-const express = require("express");
-const nodemailer = require("nodemailer");
-const cors = require("cors");
-const config = require("./config");
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+const app = require("./app");
 
-const app = express();
-app.use(express.json());
-app.use(cors());
+dotenv.config();
 
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: config.emailUser,
-    pass: config.emailPass,
-  },
-});
+// Database Connection
+const DB = process.env.DATABASE.replace("<PASSWORD>", process.env.DATABASE_PASSWORD);
 
-app.post("/send-email", async (req, res) => {
-  const { recipientEmail, subject, message } = req.body;
-  const mailOptions = {
-    from: config.emailUser,
-    to: recipientEmail,
-    subject,
-    text: message,
-  };
+mongoose
+  .connect(DB, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("✅ DB connection successful!"))
+  .catch((err) => console.error("❌ DB connection error:", err));
 
-  try {
-    await transporter.sendMail(mailOptions);
-    res.status(200).json({ message: "Email sent successfully!" });
-  } catch (error) {
-    console.error("Error sending email:", error);
-    res.status(500).json({ error: "Failed to send email" });
-  }
-});
-
-const PORT = config.port;
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
+// Start Server
+const port = process.env.PORT || 4000;
+app.listen(port, () => console.log(`🚀 Server running on port ${port}`));
