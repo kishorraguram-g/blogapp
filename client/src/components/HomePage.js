@@ -26,7 +26,7 @@ const HomePage = ({ username }) => {
   // Handle Like click
   const handleLike = async (postId, title, content, username) => {
     try {
-      const response = await fetch("http://localhost:4000/like", {
+      const response = await fetch("https://blogapp-smoky-sigma.vercel.app/like", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

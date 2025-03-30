@@ -114,7 +114,7 @@ const Mypost = ({ username }) => {
   // Handle Like button click
   const handleLike = async (post) => {
     try {
-      const response = await fetch("http://localhost:4000/like", {
+      const response = await fetch("https://blogapp-smoky-sigma.vercel.app/like", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         // Send title, username, content, and likes increment in the request body
