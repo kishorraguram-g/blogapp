@@ -1,0 +1,184 @@
+boddy{
+  background-color: black;
+}
+
+/* Main container for posts */
+.myposts-container {
+  padding: 30px;
+  overflow-x: hidden;
+  background-color: #f7f7f7;
+  position: relative;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);  /* Display three columns */
+  gap: 30px;
+  justify-items: center;
+  align-items: center;  /* Aligns content vertically at the center */
+  overflow-y: auto;
+  max-height: 100vh;
+  text-align: center;
+}
+
+/* Header styling */
+.myposts-container h1 {
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 30px;
+  color: #333;
+  grid-column: span 3; /* Span across all three columns */
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Styling for each post card */
+.post {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  height: 350px;  /* Set a fixed height */
+  transition: all 0.3s ease-in-out;
+  border-left: 5px solid #007bff;
+  align-items: center; /* Align items to the center */
+  text-align: center;  /* Center align text */
+}
+
+/* Hover effect for posts */
+.post:hover {
+  transform: translateY(-5px) scale(1.03);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* Title styling */
+.post h2 {
+  font-size: 1.5rem;  /* Adjusted font size */
+  margin-bottom: 10px;
+  color: #333;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-align: center; /* Center aligned */
+}
+
+/* Editable title styling */
+.edit-title {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+  text-align: center; /* Center align input text */
+}
+
+.edit-title:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Editable content styling */
+.edit-textarea {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  resize: vertical;
+  height: 150px;
+  transition: border-color 0.3s ease;
+  text-align: center; /* Center align input text */
+}
+
+.edit-textarea:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Post content styling */
+.post p {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 15px;
+  text-align: center;  /* Center align text */
+}
+
+/* Action buttons section (Edit, Delete, Save) */
+.post-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  width: 100%;
+}
+
+/* Save button styling */
+.save-btn {
+  background-color: #28a745;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  align-self: center; /* Align button to the center */
+}
+
+.save-btn:hover {
+  background-color: #218838;
+  transform: scale(1.05);
+}
+
+.save-btn:active {
+  transform: scale(1);
+}
+
+/* Edit and Delete icon styles */
+.edit-icon, .delete-icon {
+  font-size: 20px;
+  color: #007bff;
+  margin-left: 20px;
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.edit-icon:hover, .delete-icon:hover {
+  color: #0056b3;
+  transform: scale(1.1);
+}
+
+/* Delete icon specific styling */
+.delete-icon {
+  color: #dc3545;
+}
+
+.delete-icon:hover {
+  color: #c82333;
+}
+
+/* Responsive styling for smaller screens */
+@media (max-width: 768px) {
+  .myposts-container {
+    padding: 20px;
+    grid-template-columns: 1fr; /* Stacks posts on smaller screens */
+  }
+
+  .post {
+    width: 90%;
+    height: auto;
+  }
+
+  .save-btn {
+    width: 100%;
+  }
+}

@@ -1,0 +1,110 @@
+/* Login Page Container */
+.login {
+    width: 100%;
+    max-width: 400px;
+    margin: 5rem auto;
+    padding: 2.5rem;
+    background: linear-gradient(145deg, #ffffff, #f3f4f6);
+    border-radius: 1.5rem;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    font-family: "Poppins", sans-serif;
+  }
+  
+  /* Login Heading */
+  .login h1 {
+    margin-bottom: 2rem;
+    font-size: 2.5rem;
+    color: #1f2937;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  
+  /* Input Fields */
+  .login input {
+    width: 100%;
+    margin-bottom: 1.5rem;
+    padding: 0.9rem 1rem;
+    font-size: 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+    background-color: #f9fafb;
+    color: #374151;
+  }
+  
+  .login input:focus {
+    border-color: #2563eb;
+    outline: none;
+    box-shadow: 0 0 10px rgba(37, 99, 235, 0.5);
+    background-color: #ffffff;
+  }
+  
+  /* Login Button */
+  .login button {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(90deg, #10b981, #059669);
+    border: none;
+    border-radius: 1rem;
+    cursor: pointer;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .login button:hover {
+    background: linear-gradient(90deg, #059669, #047857);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+    transform: translateY(-5px);
+  }
+  
+  .login button:focus {
+    outline: none;
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+  }
+  
+  .login input::placeholder {
+    color: #9ca3af;
+    font-size: 0.9rem;
+  }
+  
+  .login {
+    animation: fadeIn 1s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+
+  .Registernav{
+    position: relative;
+    left: 30px;
+    display: flex;
+  }
+
+  .dhaccount{
+    text-decoration: none;
+  }
+
+  .registerlink {
+      position: relative;
+      top: 13px;
+      margin-left: 30px;
+      text-decoration: none;
+      color: red;
+      font-size: 1.3em;
+
+  }

@@ -1,0 +1,102 @@
+/* Basic page styling */
+.homepage {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background: linear-gradient(45deg, #ff7e5f, #feb47b); /* Warm, inviting gradient */
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: white;
+  padding: 20px;
+  transition: background 0.3s ease-in-out;
+}
+
+/* Jumping animation for Blog It! */
+.jumping-text {
+  font-size: 60px;
+  font-weight: bold;
+  color: #fff; /* Bright white for contrast */
+  animation: jump 1s ease-in-out infinite;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Adding shadow for depth */
+}
+
+/* Keyframe animation for jumping effect */
+@keyframes jump {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Dynamic context text transition */
+.context-text {
+  font-size: 26px;
+  font-weight: normal;
+  margin-top: 20px;
+  color: #f1c40f; /* Bright yellow for attention-grabbing effect */
+  animation: fadeInOut 3s ease-in-out infinite;
+  opacity: 0;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4); /* Slight text shadow for better readability */
+}
+
+/* Keyframe animation for fading in and out */
+@keyframes fadeInOut {
+  0%, 100% {
+    opacity: 0;
+  }
+  33% {
+    opacity: 1;
+  }
+  66% {
+    opacity: 0;
+  }
+}
+
+/* Blog Description Styling */
+.blog-description {
+  max-width: 800px;
+  margin-top: 40px;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  font-size: 18px;
+  line-height: 1.6;
+  color: #ecf0f1; /* Soft off-white for the text */
+}
+
+.blog-description p {
+  margin-bottom: 20px;
+}
+
+/* Button Styling */
+.btn {
+  padding: 12px 25px;
+  font-size: 18px;
+  background-color: #3498db; /* A fresh, modern blue */
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 4px 8px rgba(52, 152, 219, 0.4); /* Blue button shadow */
+}
+
+.btn:hover {
+  background-color: #2980b9; /* Darker blue on hover */
+  box-shadow: 0 6px 12px rgba(52, 152, 219, 0.6); /* Intense shadow on hover */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .homepage {
+    padding: 10px;
+  }
+  .blog-section {
+    padding: 15px;
+  }
+}

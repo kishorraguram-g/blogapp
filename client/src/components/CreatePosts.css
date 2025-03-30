@@ -1,0 +1,113 @@
+/* CreatePosts.css */
+
+.create-post {
+  position: relative;
+  top: 80px;
+  max-width: 600px;
+  margin: 50px auto;
+  background: rgba(255, 255, 255, 0.2); /* Glass effect */
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  font-family: 'Poppins', sans-serif;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.create-post:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+}
+
+.create-post h1 {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #fff;
+  padding: 12px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.create-post form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 100%;
+}
+
+.create-post label {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.create-post input,
+.create-post textarea {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 10px;
+  outline: none;
+  background: rgba(255, 255, 255, 0.5);
+  transition: all 0.3s ease;
+  box-shadow: inset 2px 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.create-post input:focus,
+.create-post textarea:focus {
+  background: white;
+  box-shadow: 0 0 12px rgba(37, 117, 252, 0.5);
+}
+
+.create-post textarea {
+  height: 140px;
+  resize: vertical;
+}
+
+.create-post button {
+  background: linear-gradient(90deg, #ff512f, #dd2476);
+  color: white;
+  padding: 15px;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.create-post button:hover {
+  background: linear-gradient(90deg, #ff6b6b, #ffb88c);
+  box-shadow: 0 8px 20px rgba(255, 76, 76, 0.4);
+}
+
+.create-post button:active {
+  transform: scale(0.96);
+}
+
+.create-post button:disabled {
+  background: #bbb;
+  cursor: not-allowed;
+}
+
+/* Animation for form elements */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.create-post input,
+.create-post textarea,
+.create-post button {
+  animation: fadeInUp 0.5s ease-in-out;
+}
