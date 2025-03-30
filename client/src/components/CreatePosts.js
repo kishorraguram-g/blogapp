@@ -22,7 +22,7 @@ const CreatePosts = ({ setPosts, profilename, userId }) => {
     console.log("Sending post request with:", postDetails); // Debugging log
   
     try {
-      const response = await fetch("https://blogapp-smoky-sigma.vercel.app/post", {
+      const response = await fetch("https://blogapp-server-mocha.vercel.app/post", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
