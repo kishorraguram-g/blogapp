@@ -44,50 +44,49 @@ const getUserPosts = async (req, res) => {
   };  
   const deletePost = async (req, res) => {
     try {
-      const { username, title, content } = req.body; // Extract details from request body
-  
+      const { username, title, content } = req.query; // Get data from query params
+
       if (!username || !title || !content) {
-        return res.status(400).json({ error: "⚠️ Missing required fields" });
+          return res.status(400).json({ error: "⚠️ Missing required fields" });
       }
-  
-      // Find the post using username, title, and content
+
       const post = await Post.findOne({ username, title, content });
-  
+
       if (!post) {
-        return res.status(404).json({ error: "❌ Post not found" });
+          return res.status(404).json({ error: "❌ Post not found" });
       }
-  
-      // Delete the post
+
       await Post.deleteOne({ _id: post._id });
-  
+
       res.status(200).json({ message: "✅ Post deleted successfully" });
-    } catch (error) {
+  } catch (error) {
       console.error("❌ Error deleting post:", error);
       res.status(500).json({ error: "⚠️ Failed to delete post" });
-    }
+  }
   };
 
   const updatePost = async (req, res) => {
-    const { username, previousTitle, currentTitle, previousContent, currentContent } = req.body; // Extract post details
-
+    const { username, previousTitle, currentTitle, previousContent, currentContent } = req.body;
+  
     try {
-        const updatedPost = await Post.findOneAndUpdate(
-            { username, title: previousTitle, content: previousContent }, // Find the specific post
-            { title: currentTitle, content: currentContent }, // Update fields
-            { new: true } // Return updated post
-        );
-
-        if (!updatedPost) {
-            return res.status(404).json({ error: "❌ Post not found" });
-        }
-
-        res.status(200).json({ message: "✅ Post updated successfully", updatedPost: updatedPost });
-
+      // Find the post based on username, previousTitle, and previousContent
+      const updatedPost = await Post.findOneAndUpdate(
+        { username, title: previousTitle, content: previousContent },
+        { title: currentTitle, content: currentContent },
+        { new: true } // Return the updated post
+      );
+  
+      if (!updatedPost) {
+        return res.status(404).json({ error: "❌ Post not found" });
+      }
+  
+      res.status(200).json({ message: "✅ Post updated successfully", updatedPost });
     } catch (error) {
-        console.error("❌ Error updating post:", error);
-        res.status(500).json({ error: "❌ Could not update post" });
+      console.error("❌ Error updating post:", error);
+      res.status(500).json({ error: "❌ Could not update post" });
     }
-};
+  };
+  
 
 const likePost = async (req, res) => {
     const { title, username, content, likes } = req.body;  // 🔹 Now accepting title, username, and content

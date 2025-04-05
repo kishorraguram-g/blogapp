@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FaEdit, FaTrash, FaThumbsUp } from "react-icons/fa"; 
+import { FaEdit, FaTrash, FaThumbsUp } from "react-icons/fa";
 import "./Mypost.css";
 import Header from "../Header";
 
@@ -8,134 +8,97 @@ const Mypost = ({ username }) => {
   const [editingPost, setEditingPost] = useState(null);
   const [updatedTitle, setUpdatedTitle] = useState("");
   const [updatedContent, setUpdatedContent] = useState("");
-  const [previousTitle, setPreviousTitle] = useState("");
-  const [previousContent, setPreviousContent] = useState("");
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    console.log("Fetching posts for profilename:", username);
-
     const fetchData = async () => {
       try {
-        // Fetch posts (each post includes its likes count)
-        const postsResponse = await fetch(`http://localhost:4000/posts/${username}`);
-        const postsData = postsResponse.ok ? await postsResponse.json() : null;
-        console.log("Posts data -->", postsData);
-        if (postsData) setPosts(postsData);
-      } catch (error) {
-        console.error("Error fetching posts:", error);
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/posts/${username}`);
+        if (!response.ok) throw new Error("Failed to fetch posts");
+        const data = await response.json();
+        setPosts(data);
+      } catch (err) {
+        console.error("Error fetching posts:", err.message);
+        setError(err.message);
       }
     };
-
-    if (username) {
-      fetchData();
-    }
+    if (username) fetchData();
   }, [username]);
 
-  // Handle edit click
   const handleEdit = (post) => {
-    console.log("Edit Clicked:");
-    console.log("Previous Title:", post.title);
-    console.log("Previous Content:", post.content);
+    // Log the username, title, and content for debugging
+    console.log("Editing Post - Username:", post.username, "Title:", post.title, "Content:", post.content);
+    
     setEditingPost(post._id);
     setUpdatedTitle(post.title);
     setUpdatedContent(post.content);
-    setPreviousTitle(post.title);
-    setPreviousContent(post.content);
   };
 
   const handleDelete = async (post) => {
-    console.log("Deleting Post:", post);
-    const postToDelete = {
-      username: post.username,
-      title: post.title,
-      content: post.content,
-    };
+    // Log the username, title, and content for debugging
+    console.log("Deleting Post - Username:", post.username, "Title:", post.title, "Content:", post.content);
   
     try {
-      const response = await fetch("http://localhost:4000/deletepost", {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(postToDelete),
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/deletepost?username=${encodeURIComponent(post.username)}&title=${encodeURIComponent(post.title)}&content=${encodeURIComponent(post.content)}`,
+        {
+          method: "DELETE", // Correct HTTP method
+          headers: { "Content-Type": "application/json" }
+        }
+      );
   
-      if (response.ok) {
-        console.log("Post deleted successfully");
-        setPosts((prevPosts) =>
-          prevPosts.filter((p) => p._id !== post._id)
-        );
-      } else {
-        console.error("Failed to delete post");
+      const data = await response.json();
+      console.log("Delete Response:", data);
+  
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to delete post");
       }
+  
+      // After successful deletion, filter the posts to remove the deleted post
+      setPosts(posts.filter((p) => p._id !== post._id));
+  
+      alert("✅ Post deleted successfully");
     } catch (error) {
-      console.error("Error deleting post:", error);
+      console.error("❌ Error deleting post:", error);
+      alert("❌ Failed to delete post");
     }
   };
   
-  // Handle save and send update to backend
+
   const handleSave = async () => {
-    console.log("Previous Title:", previousTitle);
-    console.log("Current Title:", updatedTitle);
-    console.log("Previous Content:", previousContent);
-    console.log("Current Content:", updatedContent);
-    console.log("Username:", username);
-
-    const updatedPost = {
-      username,
-      previousTitle,
-      currentTitle: updatedTitle,
-      previousContent,
-      currentContent: updatedContent,
-    };
-
     try {
-      const response = await fetch("http://localhost:4000/updatepost", {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/updatepost`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updatedPost),
+        body: JSON.stringify({
+          username, // Add the username field
+          previousTitle: posts.find(post => post._id === editingPost)?.title, // Get the previous title
+          currentTitle: updatedTitle,
+          previousContent: posts.find(post => post._id === editingPost)?.content, // Get the previous content
+          currentContent: updatedContent,
+        }),
       });
-
-      if (response.ok) {
-        console.log("Post updated successfully");
-        setPosts((prevPosts) =>
-          prevPosts.map((post) =>
-            post._id === editingPost ? { ...post, title: updatedTitle, content: updatedContent } : post
-          )
-        );
-      } else {
-        console.error("Failed to update post");
-      }
-    } catch (error) {
-      console.error("Error updating post:", error);
+      if (!response.ok) throw new Error("Failed to update post");
+      setPosts(posts.map((post) => (post._id === editingPost ? { ...post, title: updatedTitle, content: updatedContent } : post)));
+      setEditingPost(null);
+    } catch (err) {
+      console.error("Error updating post:", err.message);
+      setError(err.message);
     }
-
-    setEditingPost(null);
   };
 
-  // Handle Like button click
   const handleLike = async (post) => {
     try {
-      const response = await fetch("https://blogapp-server-mocha.vercel.app/like", {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/like`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        // Send title, username, content, and likes increment in the request body
-        body: JSON.stringify({ username, title: post.title, content: post.content, likes: 1 }),
+        body: JSON.stringify({ _id: post._id, likes: post.likes + 1 }),
       });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        console.log("Like updated successfully!");
-        // Update the specific post's likes count in state
-        setPosts((prevPosts) =>
-          prevPosts.map((p) =>
-            p._id === post._id ? { ...p, likes: data.updatedPost.likes } : p
-          )
-        );
-      } else {
-        console.error("Failed to update like:", data.error);
-      }
-    } catch (error) {
-      console.error("Error liking post:", error);
+      if (!response.ok) throw new Error("Failed to like post");
+      setPosts(posts.map((p) => (p._id === post._id ? { ...p, likes: p.likes + 1 } : p)));
+    } catch (err) {
+      console.error("Error liking post:", err.message);
+      setError(err.message);
     }
   };
 
@@ -143,42 +106,33 @@ const Mypost = ({ username }) => {
     <div>
       <Header />
       <div className="myposts-container">
+        {error && <p className="error">{error}</p>}
         {posts.length === 0 ? (
           <p>No posts found.</p>
         ) : (
           posts.map((post) => (
             <div key={post._id} className="post">
               {editingPost === post._id ? (
-                <input
-                  type="text"
-                  value={updatedTitle}
-                  onChange={(e) => setUpdatedTitle(e.target.value)}
-                  className="edit-title"
-                />
+                <input type="text" value={updatedTitle} onChange={(e) => setUpdatedTitle(e.target.value)} />
               ) : (
                 <h2>{post.title}</h2>
               )}
               {editingPost === post._id ? (
-                <textarea
-                  value={updatedContent}
-                  onChange={(e) => setUpdatedContent(e.target.value)}
-                  className="edit-textarea"
-                />
+                <textarea value={updatedContent} onChange={(e) => setUpdatedContent(e.target.value)} />
               ) : (
                 <p>{post.content}</p>
               )}
-              {/* Display like count directly from the post object */}
               <p>
                 <FaThumbsUp size={30} onClick={() => handleLike(post)} style={{ cursor: "pointer" }} /> {post.likes || 0}
               </p>
               <small>Created at: {new Date(post.createdAt).toLocaleString()}</small>
               <div className="post-actions">
                 {editingPost === post._id ? (
-                  <button className="save-btn" onClick={handleSave}>Save</button>
+                  <button onClick={handleSave}>Save</button>
                 ) : (
-                  <FaEdit className="edit-icon" onClick={() => handleEdit(post)} />
-                )}                
-                <FaTrash className="delete-icon" onClick={() => handleDelete(post)} />
+                  <FaEdit onClick={() => handleEdit(post)} />
+                )}
+                <FaTrash onClick={() => handleDelete(post)} />
               </div>
             </div>
           ))

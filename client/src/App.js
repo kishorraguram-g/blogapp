@@ -10,6 +10,7 @@ import HomePage from "./components/HomePage";
 import Profile from "./components/Profile";
 
 const App = () => {
+  console.log(process.env.REACT_APP_API_URL)
   const [posts,setPosts]=useState([])
   const [profilename,setProfilename]=useState("")
   const [userId,setUserId]=useState("")
